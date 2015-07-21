@@ -38,5 +38,6 @@ func Leaptransp_websocket_Connect(wsaddr string){
 
 origin:=leaptransp_websocket_Connect_genorigin(wsaddr)
 
+wsc,err:=websocket.Dial(wsaddr, "", origin)
 
 }
