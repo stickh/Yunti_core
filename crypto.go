@@ -22,7 +22,7 @@ key.KeyDataV=base64.EncodeToString(*pvk)
 return key
 }
 
-func lowlevelSign(key AuthKey,data string)(signature string,ok int){
+func Sign(key AuthKey,data string)(signature string,ok int){
 switch key.KeyType {
 case "ed25519":
    var pvk []byte
@@ -41,7 +41,7 @@ default:
 }
 }
 
-func lowlevelVerify(key AuthKey,data,signature string)(ok int){
+func Verify(key AuthKey,data,signature string)(ok int){
 
   switch key.KeyType {
   case "ed25519":
