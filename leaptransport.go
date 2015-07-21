@@ -14,12 +14,14 @@ const (
     leaptransp_stage_clientauthdone
     leaptransp_stage_syncconnest
     leaptransp_stage_asyncconnest
+    leaptransp_stage_failed
 )
 
 type leaptransp struct{
   Leaptype string
   Stage leaptransp_stage
   Sync bool
+  conn interface
 }
 
 func leaptransp_websocket_Connect_genorigin(wsaddr string)string{
@@ -34,7 +36,7 @@ origin=oriu.String()
 return origin
 }
 
-func Leaptransp_websocket_Connect(wsaddr string){
+func (lt *leaptransp)Leaptransp_websocket_Connect(wsaddr string){
 
 origin:=leaptransp_websocket_Connect_genorigin(wsaddr)
 
