@@ -36,16 +36,16 @@ origin=oriu.String()
 return origin
 }
 
-func (lt *leaptransp)Leaptransp_websocket_Connect(wsaddr string){
+func (lt *leaptransp)Leaptransp_websocket_Connect(wsaddr string)int{
 
 origin:=leaptransp_websocket_Connect_genorigin(wsaddr)
 
 wsc,err:=websocket.Dial(wsaddr, "", origin)
 
 if err != nil {
-  log.Fatal(err)
+  return -1
 }
 
-
+lt.conn=&wsc
 
 }
