@@ -40,4 +40,10 @@ origin:=leaptransp_websocket_Connect_genorigin(wsaddr)
 
 wsc,err:=websocket.Dial(wsaddr, "", origin)
 
+if err != nil {
+  log.Fatal(err)
+}
+
+
+
 }
