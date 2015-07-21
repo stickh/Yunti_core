@@ -4,15 +4,15 @@ import net
 
 type YuntiProxyConn struct{}
 
-func(c YuntiProxyConn)Close(){
+func(c *YuntiProxyConn)Close(){
   //TODO
 }
 
-func(c YuntiProxyConn)Write(b []byte) (n int, err error){
+func(c *YuntiProxyConn)Write(b []byte) (n int, err error){
   //TODO
 }
 
-func(c YuntiProxyConn)Read(b []byte) (n int, err error){
+func(c *YuntiProxyConn)Read(b []byte) (n int, err error){
   //TODO
 }
 
