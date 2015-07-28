@@ -17,12 +17,18 @@ const (
     leaptransp_stage_failed
 )
 
-type leaptransp struct{
+type Leaptransp struct{
   Leaptype string
   Stage leaptransp_stage
   Sync bool
   conn interface
 }
+
+type Leapauth struct{
+  Authtype string
+  AuthKey string
+}
+
 
 func leaptransp_websocket_Connect_genorigin(wsaddr string)string{
   oriu,_:=url.Parse(wsaddr)
@@ -47,5 +53,67 @@ if err != nil {
 }
 
 lt.conn=&wsc
+
+}
+
+
+func (lt *leaptransp)SendT(dt string)int{
+
+
+switch lt.Leaptype {
+case "websocket":
+  lt.conn.Message.Send(dt)
+default:
+  return -1
+}
+}
+
+func (lt *leaptransp)RecvT(dt *string)int{
+
+
+switch lt.Leaptype {
+case "websocket":
+  lt.conn.Message.Receive(dt)
+default:
+  return -1
+}
+
+}
+
+
+
+func (lt *leaptransp)SendB(dt []byte)int{
+
+
+switch lt.Leaptype {
+case "websocket":
+  lt.conn.Message.Send(dt)
+default:
+  return -1
+}
+}
+
+func (lt *leaptransp)RecvB(dt *[]byte)int{
+
+
+switch lt.Leaptype {
+case "websocket":
+  lt.conn.Message.Receive(dt)
+default:
+  return -1
+}
+
+}
+
+
+func (lt *leaptransp)Leaptransp_auth(la Leapauth)int{
+
+switch la.Authtype {
+case "simple_password":
+  lt.SendT() //TODO
+default:
+  return -1
+}
+
 
 }
