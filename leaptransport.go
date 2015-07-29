@@ -3,6 +3,9 @@ package yunti_core
 import "net"
 import "golang.org/x/net/websocket"
 import "net/url"
+import "golang.org/x/crypto/sha3"
+import "encoding/base64"
+import "strings"
 
 type leaptransp_stage int
 
@@ -27,6 +30,7 @@ type Leaptransp struct{
 type Leapauth struct{
   Authtype string
   AuthKey string
+  Id string
 }
 
 
@@ -105,15 +109,76 @@ default:
 
 }
 
+func Leaptransp_auth_simple_password_constructMsgAsT(la *Leapauth)string{
+
+s:= la.AuthKey +"!+AUTH"
+
+x:=sha3.Sum512([]byte(s))
+
+d:=make([]byte,0,64)
+
+d:=append(d,x...)
+
+o:=base64.StdEncoding.EncodeToString(d)
+
+oo:="AUTH@simple_password@"+la.Id+"@"+o
+
+return oo
+
+
+}
 
 func (lt *leaptransp)Leaptransp_auth(la Leapauth)int{
 
 switch la.Authtype {
 case "simple_password":
-  lt.SendT() //TODO
+  lt.SendT(Leaptransp_auth_simple_password_constructMsgAsT(la))
 default:
   return -1
 }
+
+
+}
+
+func Leaptransp_authV_simple_password(la *map[string]Leapauths,un,p6 string)int{
+
+  if lu,ok:=Leapauths[un];ok{
+
+    s:= lu.AuthKey +"!+AUTH"
+
+    x:=sha3.Sum512([]byte(s))
+
+    d:=make([]byte,0,64)
+
+    d:=append(d,x...)
+
+    o:=base64.StdEncoding.EncodeToString(d)
+
+  if o==p6 {
+    return 0 //auth ok
+  }
+  }else{
+    return 1 //password isn't correct
+  }
+
+}else{
+  return -1 //no such user
+}
+
+
+func (lt *leaptransp)Leaptransp_authV(la *map[string]Leapauths, incD string )string{
+
+ins:=string.Split(incD,"@")
+
+switch ins[1]{
+case "simple_password":
+
+Leaptransp_authV_simple_password(la,ins[2],ins[3])
+
+default:
+  return 0
+}
+
 
 
 }
