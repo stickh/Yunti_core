@@ -46,6 +46,9 @@ type Leapauth struct{
   Id string
 }
 
+type LeapConnConf struct{
+
+}
 
 func leaptransp_websocket_Connect_genorigin(wsaddr string)string{
   oriu,_:=url.Parse(wsaddr)
@@ -199,5 +202,30 @@ default:
 
 
 func (lt *leaptransp)Leaptransp_SwitchToBinarymode()int{  //only for async connection
+return -2 // TODO
+}
+
+
+func (lt *leaptransp)Leaptransp_NewLeapSyncConn(target, tunnel string,Advopt LeapConnConf)int{
+
+u,err:= url.Parse(tunnel)
+
+if err!=nil {
+
+return  -1; // url isn't understandable
+
+}
+
+switch u.Scheme {
+case "wss":
+lt.Stage=leaptransp_stage_initialized
+lt.Leaptransp_websocket_Connect(tunnel)
+lt.Stage=leaptransp_stage_connected
+
+
+default:
+  return -2 //not support
+
+}
 
 }
