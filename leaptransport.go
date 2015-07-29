@@ -20,11 +20,24 @@ const (
     leaptransp_stage_failed
 )
 
+
+type leaptransp_binarymode int
+
+
+const (
+    leaptransp_binarymode_NULL leaptransp_binarymode = iota
+    leaptransp_binarymode_not_binary
+    leaptransp_binarymode_Switching_localsent
+    //usually it is client to send switch request if leaptransp is not forced to be binary
+    leaptransp_binarymode_binary
+)
+
 type Leaptransp struct{
   Leaptype string
   Stage leaptransp_stage
   Sync bool
   conn interface
+  binary int
 }
 
 type Leapauth struct{
@@ -180,5 +193,11 @@ default:
 }
 
 
+
+}
+
+
+
+func (lt *leaptransp)Leaptransp_SwitchToBinarymode()int{  //only for async connection
 
 }
